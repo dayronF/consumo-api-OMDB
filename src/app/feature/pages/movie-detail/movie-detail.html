@@ -1,0 +1,54 @@
+<div class="detail">
+
+  <div *ngIf="loading" class="detail__loading">
+    <p>Cargando...</p>
+  </div>
+
+  
+  <div *ngIf="!loading && detail">
+    <button class="detail__back" (click)="goBack()">← Volver</button>
+
+    <div class="detail__hero">
+   
+      <div class="detail__poster">
+        <img 
+          *ngIf="detail.Poster !== 'N/A'; else noPoster"
+          [src]="detail.Poster" 
+          [alt]="detail.Title"
+           (error)="onImageError($event)"
+        >
+        <ng-template #noPoster>
+          <div class="detail__no-poster">Sin imagen disponible</div>
+        </ng-template>
+      </div>
+
+ 
+      <div class="detail__info">
+        <span class="detail__type">{{ detail.Type }}</span>
+        <h1 class="detail__title">{{ detail.Title }}</h1>
+        <p class="detail__year">{{ detail.Year }}</p>
+
+        <div class="detail__rating">
+          ⭐ {{ detail.imdbRating !== 'N/A' ? detail.imdbRating : 'Sin calificación' }}
+        </div>
+
+        <div class="detail__tags">
+          <span class="tag">{{ detail.Genre !== 'N/A' ? detail.Genre : 'Género no disponible' }}</span>
+          <span class="tag">{{ detail.Runtime !== 'N/A' ? detail.Runtime : 'Duración no disponible' }}</span>
+          <span class="tag">{{ detail.Rated !== 'N/A' ? detail.Rated : 'Clasificación no disponible' }}</span>
+        </div>
+
+        <p class="detail__plot">
+          {{ detail.Plot !== 'N/A' ? detail.Plot : 'Descripción no disponible.' }}
+        </p>
+
+        <div class="detail__meta">
+          <p><strong>Director:</strong> {{ detail.Director !== 'N/A' ? detail.Director : 'No disponible' }}</p>
+          <p><strong>Reparto:</strong> {{ detail.Actors !== 'N/A' ? detail.Actors : 'No disponible' }}</p>
+          <p><strong>País:</strong> {{ detail.Country !== 'N/A' ? detail.Country : 'No disponible' }}</p>
+          <p><strong>Idioma:</strong> {{ detail.Language !== 'N/A' ? detail.Language : 'No disponible' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

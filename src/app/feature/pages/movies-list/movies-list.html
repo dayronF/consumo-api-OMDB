@@ -1,0 +1,11 @@
+<div class="movies">
+  <h1 class="movies__title">Squid</h1>
+
+  <div class="movies__grid">
+    <app-api-card
+      *ngFor="let movie of results"
+      [movie]="movie"
+      (selected)="onCardSelected($event)"
+    ></app-api-card>
+  </div>
+</div>
