@@ -1,11 +1,48 @@
 <div class="movies">
   <h1 class="movies__title">Squid</h1>
 
+  <!-- Filtros -->
+  <div class="movies__filters">
+    <div class="filter-group">
+      <p class="filter-group__label">Tipo</p>
+      <div class="filter-group__options">
+        <button class="filter-btn" [class.filter-btn--active]="selectedType === 'Todos'" (click)="selectType('Todos')">Todos</button>
+        <button class="filter-btn" [class.filter-btn--active]="selectedType === 'movie'" (click)="selectType('movie')">movie</button>
+        <button class="filter-btn" [class.filter-btn--active]="selectedType === 'series'" (click)="selectType('series')">series</button>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <p class="filter-group__label">Año</p>
+      <div class="filter-group__options">
+        <button *ngFor="let year of years" class="filter-btn" [class.filter-btn--active]="selectedYear === year"
+          (click)="selectYear(year)">
+          {{ year }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sin resultados -->
+  <p *ngIf="filtered.length === 0" class="movies__empty">
+    No hay resultados para los filtros seleccionados.
+  </p>
+
+  <!-- Grid -->
   <div class="movies__grid">
-    <app-api-card
-      *ngFor="let movie of results"
-      [movie]="movie"
-      (selected)="onCardSelected($event)"
-    ></app-api-card>
+    <app-api-card *ngFor="let movie of filtered" [movie]="movie" (selected)="onCardSelected($event)"></app-api-card>
+  </div>
+
+  <!-- Paginador -->
+  <div class="movies__pagination">
+    <button class="page-btn" (click)="prevPage()" [disabled]="currentPage === 1">
+      ← Anterior
+    </button>
+
+    <span class="page-info">Página {{ currentPage }} de {{ totalPages }}</span>
+
+    <button class="page-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">
+      Siguiente →
+    </button>
   </div>
 </div>

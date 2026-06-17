@@ -1,18 +1,11 @@
-
 <div class="card" (click)="onSelect()">
-
   <div class="card__poster">
     <img 
-      *ngIf="movie.Poster !== 'N/A'; else noPoster"
       [src]="movie.Poster" 
       [alt]="movie.Title"
-       (error)="onImageError($event)"
+      (error)="onImageError($event)"
     >
-    <ng-template #noPoster>
-      <div class="card__no-poster">
-        <span>Sin imagen</span>
-      </div>
-    </ng-template>
+    <span class="card__no-poster-text" [style.display]="'none'">Sin imagen</span>
   </div>
 
   <div class="card__info">

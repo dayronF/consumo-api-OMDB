@@ -116,4 +116,96 @@
       strong { color: #1a1a2e; }
     }
   }
+
+  .detail__episodes {
+  margin-top: 40px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.detail__episodes-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 0 0 24px;
+}
+
+.detail__episodes-loading,
+.detail__no-episodes {
+  text-align: center;
+  color: #888;
+  padding: 32px 0;
+  font-size: 15px;
+}
+
+.season {
+  margin-bottom: 32px;
+
+  &__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #6c63ff;
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f0eeff;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.episode {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+
+  &__number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f0eeff;
+    color: #6c63ff;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__info {
+    flex: 1;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+
+  &__date {
+    font-size: 12px;
+    color: #888;
+  }
+
+  &__rating {
+    font-size: 13px;
+    color: #555;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+}
 }

@@ -21,11 +21,22 @@ export class ServiceModule {
     });
   }
 
-  search(query: string): Observable<OmdbResponse> {
+  getSeasons(imdbID: string, season: number): Observable<any> {
+  return this.http.get<any>(this.BASE_URL, {
+    params: {
+      i: imdbID,
+      Season: season.toString(),
+      apikey: this.API_KEY
+    }
+  });
+}
+
+  search(query: string, page: number = 1): Observable<OmdbResponse> {
     return this.http.get<OmdbResponse>(this.BASE_URL, {
       params: {
         s: query,
         apikey: this.API_KEY,
+        page: page.toString(),
       },
     });
   }

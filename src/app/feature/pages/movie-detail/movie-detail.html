@@ -1,28 +1,22 @@
 <div class="detail">
-
   <div *ngIf="loading" class="detail__loading">
     <p>Cargando...</p>
   </div>
 
-  
   <div *ngIf="!loading && detail">
     <button class="detail__back" (click)="goBack()">← Volver</button>
 
     <div class="detail__hero">
-   
+      <!-- Poster -->
       <div class="detail__poster">
-        <img 
-          *ngIf="detail.Poster !== 'N/A'; else noPoster"
-          [src]="detail.Poster" 
+        <img
+          [src]="detail.Poster"
           [alt]="detail.Title"
-           (error)="onImageError($event)"
+          (error)="onImageError($event)"
         >
-        <ng-template #noPoster>
-          <div class="detail__no-poster">Sin imagen disponible</div>
-        </ng-template>
       </div>
 
- 
+      <!-- Info -->
       <div class="detail__info">
         <span class="detail__type">{{ detail.Type }}</span>
         <h1 class="detail__title">{{ detail.Title }}</h1>
@@ -49,6 +43,54 @@
           <p><strong>Idioma:</strong> {{ detail.Language !== 'N/A' ? detail.Language : 'No disponible' }}</p>
         </div>
       </div>
+    </div>
+
+    <!-- Sección episodios -->
+    <div class="detail__episodes">
+
+      <!-- Cargando temporadas -->
+      <div *ngIf="loadingSeasons" class="detail__episodes-loading">
+        <p>Cargando episodios...</p>
+      </div>
+
+      <!-- Es serie y tiene temporadas -->
+      <div *ngIf="!loadingSeasons && detail.Type === 'series'">
+        <h2 class="detail__episodes-title">Episodios</h2>
+
+        <!-- Sin temporadas -->
+        <p *ngIf="seasons.length === 0" class="detail__no-episodes">
+          No hay episodios disponibles para esta serie.
+        </p>
+
+        <!-- Lista de temporadas -->
+        <div *ngFor="let season of seasons" class="season">
+          <h3 class="season__title">Temporada {{ season.Season }}</h3>
+
+          <div class="season__list">
+            <div *ngFor="let episode of season.Episodes" class="episode" (click)="goToEpisode(episode.imdbID)">
+              <div class="episode__number">{{ episode.Episode }}</div>
+              <div class="episode__info">
+                <p class="episode__name">{{ episode.Title }}</p>
+                <span class="episode__date">{{ episode.Released !== 'N/A' ? episode.Released : 'Fecha no disponible' }}</span>
+              </div>
+              <div class="episode__rating">
+                ⭐ {{ episode.imdbRating !== 'N/A' ? episode.imdbRating : 'N/A' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Es película -->
+      <div *ngIf="!loadingSeasons && detail.Type === 'movie'" class="detail__no-episodes">
+        <p>🎬 Esta es una película, no tiene episodios.</p>
+      </div>
+
+      <!-- Es episode -->
+      <div *ngIf="!loadingSeasons && detail.Type === 'episode'" class="detail__no-episodes">
+        <p>📺 Este es un episodio individual.</p>
+      </div>
+
     </div>
   </div>
 </div>

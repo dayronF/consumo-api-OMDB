@@ -4,8 +4,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { MoviesListComponent } from './pages/movies-list/movies-list';
 import { ApiCardComponent } from './components/api-card/api-card';
 
+
 @NgModule({
-  declarations: [MoviesListComponent, ApiCardComponent],
+  declarations: [MoviesListComponent, ApiCardComponent, ],
   imports: [
     CommonModule,
     HttpClientModule

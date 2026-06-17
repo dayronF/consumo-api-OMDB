@@ -14,9 +14,10 @@ export class ApiCardComponent {
   onSelect(): void {
     this.selected.emit(this.movie.imdbID);
   }
-  onImageError(event: Event): void {
+ onImageError(event: Event): void {
   const img = event.target as HTMLImageElement;
-  img.style.display = 'none'; 
-  img.parentElement!.innerHTML = '<div class="card__no-poster">Sin imagen disponible</div>';
+  img.style.display = 'none';
+  const noText = img.nextElementSibling as HTMLElement;
+  if (noText) noText.style.display = 'flex';
 }
 }
