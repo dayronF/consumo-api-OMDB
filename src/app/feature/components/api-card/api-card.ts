@@ -8,16 +8,27 @@ import { OmdbResult } from '../../models/models-module';
   standalone: false
 })
 export class ApiCardComponent {
-  @Input() movie!: OmdbResult;
+  private _movie!: OmdbResult;
+
+  @Input()
+  set movie(value: OmdbResult) {
+    this._movie = value;
+    this.posterMissing = false;
+  }
+
+  get movie(): OmdbResult {
+    return this._movie;
+  }
+
   @Output() selected = new EventEmitter<string>();
+
+  posterMissing = false;
 
   onSelect(): void {
     this.selected.emit(this.movie.imdbID);
   }
- onImageError(event: Event): void {
-  const img = event.target as HTMLImageElement;
-  img.style.display = 'none';
-  const noText = img.nextElementSibling as HTMLElement;
-  if (noText) noText.style.display = 'flex';
-}
+
+  onImageError(): void {
+    this.posterMissing = true;
+  }
 }

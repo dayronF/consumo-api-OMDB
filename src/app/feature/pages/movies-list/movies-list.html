@@ -30,7 +30,7 @@
 
   <!-- Grid -->
   <div class="movies__grid">
-    <app-api-card *ngFor="let movie of filtered" [movie]="movie" (selected)="onCardSelected($event)"></app-api-card>
+    <app-api-card *ngFor="let movie of visibleMovies" [movie]="movie" (selected)="onCardSelected($event)"></app-api-card>
   </div>
 
   <!-- Paginador -->

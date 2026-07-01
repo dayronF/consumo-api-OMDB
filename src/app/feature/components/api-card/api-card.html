@@ -1,11 +1,20 @@
-<div class="card" (click)="onSelect()">
+<div
+  class="card"
+  role="button"
+  tabindex="0"
+  (click)="onSelect()"
+  (keydown.enter)="onSelect()"
+  (keydown.space)="onSelect(); $event.preventDefault()"
+  [attr.aria-label]="'Ver detalle de ' + movie.Title"
+>
   <div class="card__poster">
     <img 
+      *ngIf="!posterMissing"
       [src]="movie.Poster" 
       [alt]="movie.Title"
-      (error)="onImageError($event)"
+      (error)="onImageError()"
     >
-    <span class="card__no-poster-text" [style.display]="'none'">Sin imagen</span>
+    <div class="card__no-poster-text" *ngIf="posterMissing">Sin imagen</div>
   </div>
 
   <div class="card__info">

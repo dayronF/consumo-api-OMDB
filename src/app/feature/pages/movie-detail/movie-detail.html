@@ -10,10 +10,17 @@
       <!-- Poster -->
       <div class="detail__poster">
         <img
+          *ngIf="detail.Poster"
           [src]="detail.Poster"
           [alt]="detail.Title"
           (error)="onImageError($event)"
         >
+        <div *ngIf="!detail.Poster" class="detail__poster-empty">
+          <p>Sin imagen</p>
+        </div>
+      </div>
+      <div *ngIf="posterMessage && detail.Poster" class="detail__poster-message">
+        {{ posterMessage }}
       </div>
 
       <!-- Info -->
@@ -67,8 +74,18 @@
           <h3 class="season__title">Temporada {{ season.Season }}</h3>
 
           <div class="season__list">
-            <div *ngFor="let episode of season.Episodes" class="episode" (click)="goToEpisode(episode.imdbID)">
-              <div class="episode__number">{{ episode.Episode }}</div>
+              <div
+                *ngFor="let episode of season.Episodes"
+                class="episode"
+                [class.clickable]="episode.imdbID && episode.imdbID !== 'N/A'"
+                [attr.role]="episode.imdbID && episode.imdbID !== 'N/A' ? 'button' : null"
+                [attr.tabindex]="episode.imdbID && episode.imdbID !== 'N/A' ? '0' : null"
+                (click)="goToEpisode(episode.imdbID)"
+                (keydown.enter)="goToEpisode(episode.imdbID)"
+                (keydown.space)="goToEpisode(episode.imdbID); $event.preventDefault()"
+                [attr.aria-disabled]="!(episode.imdbID && episode.imdbID !== 'N/A')"
+              >
+                <div class="episode__number">{{ episode.Episode }}</div>
               <div class="episode__info">
                 <p class="episode__name">{{ episode.Title }}</p>
                 <span class="episode__date">{{ episode.Released !== 'N/A' ? episode.Released : 'Fecha no disponible' }}</span>
