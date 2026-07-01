@@ -58,13 +58,28 @@ export class MoviesListComponent implements OnInit {
 
               this.results = all;
 
-              const uniqueYears = Array.from(new Set(this.results.map((m) => m.Year)))
-                .filter((y) => y && y !== 'N/A')
-                .map((y) => Number(y))
-                .filter((value) => !Number.isNaN(value))
-                .sort((a, b) => a - b)
-                .map(String);
-              this.years = ['Todos', ...uniqueYears];
+              // Extraer años (maneja rangos como "2023–2025" tomando el año inicial)
+              const yearSet = new Set<number>();
+              this.results.forEach((m) => {
+                if (m.Year && m.Year !== 'N/A') {
+                  // Tomar el primer año si es un rango (ej: "2023–2025" -> 2023)
+                  const year = m.Year.split(/[–\-]/)[0].trim();
+                  const yearNum = Number(year);
+                  if (!Number.isNaN(yearNum)) {
+                    yearSet.add(yearNum);
+                  }
+                }
+              });
+              
+              const uniqueYears = Array.from(yearSet).sort((a, b) => a - b);
+              
+              // Asegurar que 2026 esté disponible
+              if (!uniqueYears.includes(2026)) {
+                uniqueYears.push(2026);
+                uniqueYears.sort((a, b) => a - b);
+              }
+              
+              this.years = ['Todos', ...uniqueYears.map(String)];
 
               this.applyFilters();
               this.totalPages = Math.max(1, Math.ceil(this.filtered.length / this.itemsPerPage));
@@ -85,7 +100,13 @@ export class MoviesListComponent implements OnInit {
 
   applyFilters(): void {
     this.filtered = this.results.filter((movie) => {
-      const matchYear = this.selectedYear === 'Todos' || movie.Year === this.selectedYear;
+      // Extraer el año inicial (maneja rangos como "2023–2025")
+      let movieYear = movie.Year;
+      if (movieYear && movieYear !== 'N/A') {
+        movieYear = movieYear.split(/[–\-]/)[0].trim();
+      }
+      
+      const matchYear = this.selectedYear === 'Todos' || movieYear === this.selectedYear;
       const matchType = this.selectedType === 'Todos' || movie.Type === this.selectedType;
       return matchYear && matchType;
     });
@@ -96,7 +117,6 @@ export class MoviesListComponent implements OnInit {
 
   selectYear(year: string): void {
     this.selectedYear = year;
-    this.selectedType = 'Todos';
     this.currentPage = 1; // volver a página 1 al filtrar
     this.applyFilters();
   }
